@@ -14,7 +14,7 @@ export class UserService {
     private userSettingsModel: Model<UserSettings>,
   ) {}
 
-  async createUser({ settings, ...CreateUserDto }: CreateUserDto) {
+  async createUser({ settings, ...CreateUserDto }: CreateUserDto): Promise<User | undefined> {
     if (settings) {
       const newSettings = new this.userSettingsModel(settings);
       const savedNewSettings = await newSettings.save();
@@ -30,19 +30,19 @@ export class UserService {
     return newUser.save();
   }
 
-  getUsers() {
-    return this.userModel.find().populate(['settings', 'posts']);
+  async getUsers(): Promise<User[] | undefined> {
+    return await this.userModel.find().populate(['settings', 'posts']);
   }
 
-  getUserById(id: string) {
-    return this.userModel.findById(id).populate(['settings', 'posts']);
+  async getUserById(id: string): Promise<User | undefined> {
+    return await this.userModel.findById(id).populate(['settings', 'posts']);
   }
 
-  updateUser(id: string, updateUserDto: UpdateUserDto) {
-    return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User | undefined> {
+    return await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
   }
 
-  deleteUser(id: string) {
-    return this.userModel.findByIdAndDelete(id);
+  async deleteUser(id: string): Promise<User | undefined> {
+    return await this.userModel.findByIdAndDelete(id);
   }
 }

@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsStrongPassword,
   ValidateNested,
 } from 'class-validator';
 
@@ -25,6 +26,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   username: string;
+
+  @IsNotEmpty()
+  @IsStrongPassword()
+  password: string;
 
   @IsString()
   @IsOptional()
